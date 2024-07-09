@@ -7,7 +7,7 @@
 console.log('Hollard.js - loading dependencies');
 var express = require('express');
 var http = require('http');
-var app = ezxpress();
+var app = express();
 app.get('/healthz', function (req, res) {
   console.log('Hollard.js: Received /healthz');
   res.send('healthy')
