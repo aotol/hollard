@@ -20,13 +20,12 @@ app.set('port', 8080);
 //app.set('host', 'localhost');
 console.log('Hollard.js - starting proxy');
 http.createServer(app)
-  .listen(app.get('port'), app.get('host'),
+  .listen(app.get('port'),
     function () {
-      console.log('Hollard.js Xact insurer proxy started on ' + app.get('host') + ':' + app.get('port'));  
+      console.log('Hollard.js Xact insurer proxy started on port ' + app.get('port'));  
     }
   )
   .on('error', function (e) {
     console.log('Hollard.js - proxy failed to load: ' + e.message);
   });
-
 console.log('Hollard.js - proxy running successfully');
