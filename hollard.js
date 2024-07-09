@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
   res.send('NodeJS App is running');
 });
 app.set('port', 8080);
-app.set('host', 'localhost');
+//app.set('host', 'localhost');
 console.log('Hollard.js - starting proxy');
 http.createServer(app)
   .listen(app.get('port'), app.get('host'),
