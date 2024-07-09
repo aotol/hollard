@@ -7,6 +7,6 @@
     "express": "^3.21.2"
   },
   "scripts": {
-    "start": "node hollard.js",
+    "start": "node hollard.js"
   }
 }
