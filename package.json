@@ -1,0 +1,21 @@
+{
+  "name": "xact-hollard-insurer-proxy",
+  "version": "1.1.0",
+  "description": "This NodeJS application acts as bridge/proxy between Hollard Insurer and WooliesX Xact system.",
+  "main": "hollard.js",
+  "dependencies": {
+<<<<<<< HEAD
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node hollard.js"
+=======
+    "debug": "^4.1.1",
+    "ejs": "*",
+    "express": "^3.21.2",
+    "superagent": "^4.1.0",
+    "winston": "*"
+>>>>>>> FETCH_HEAD
+  }
+}
