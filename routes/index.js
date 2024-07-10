@@ -12,7 +12,7 @@ var zlib = require('zlib');
 var populateData = fs.readFileSync('./routes/populateData.js');
 var JSONMin = fs.readFileSync('./routes/json3.min.js');
 
-var httpntlm = require('httpntlm')
+var httpntlm = require('httpntlm');
 var ntlm = httpntlm.ntlm;
 var async = require('async');
 var config = require('../configuration.js');
@@ -36,7 +36,7 @@ exports.hollard = async function (req, res) {
 
   if (req.url.indexOf('/healthz') > -1) {
     console.log('Index.js - health check success');
-    res.send('healthy')
+    res.send('healthy');
     return;
   }
 
@@ -233,7 +233,7 @@ exports.hollard = async function (req, res) {
                 if (dezipped.replace) {
                   dezipped = dezipped.replace(/parent\.document/gi, 'document');
                   dezipped = dezipped.replace(/top.location.href/gi, '\/\/top.location.href');
-                  dezipped = dezipped.replace(/'_top'/gi, ''_self'');
+                  dezipped = dezipped.replace(/'_top'/gi, '\'_self\'');
                   dezipped = dezipped.replace(hostnameREGEX, config.HOST_URL);
                   dezipped = dezipped.replace(hostnameREGEXWithoutHTTPS, config.HOST_URL.replace('https://', ''));
                   dezipped = dezipped.replace('</head>', JSONMin + '</head>\r\n');
@@ -325,7 +325,7 @@ exports.hollard = async function (req, res) {
 }; //end proxy
 
 function modifiedDate(path) {
-  const stats = fs.statSync(path)
+  const stats = fs.statSync(path);
   return stats.mtime
   //const { birthtime } = fs.statSync(path)
   //return birthtime;
