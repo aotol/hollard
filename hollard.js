@@ -125,7 +125,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/healthz', function (req, res) {
-  res.send('healthy')
+  res.send('healthy');
+  console.log('Received request on /healthz');
 });
 
 app.get('*', routes.hollard);
