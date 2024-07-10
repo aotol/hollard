@@ -4,7 +4,7 @@
  * Copyright 2020 Woolworths Limited
  *
  */
-console.log("Index.js - loading dependencies");
+console.log('Index.js - loading dependencies');
 var fs = require('fs');
 var winston = require('winston');
 var request = require('requestretry');
@@ -15,14 +15,14 @@ var JSONMin = fs.readFileSync('./routes/json3.min.js');
 var httpntlm = require('httpntlm')
 var ntlm = httpntlm.ntlm;
 var async = require('async');
-var config = require("../configuration.js");
+var config = require('../configuration.js');
 
 exports.hollard = async function (req, res) {
 
   var hostname = config.INSURER_URL;
-  var hostnameREGEX = new RegExp(hostname, "gi");
+  var hostnameREGEX = new RegExp(hostname, 'gi');
   var hostnameWithoutHTTPS = hostname.replace('https://', '');
-  var hostnameREGEXWithoutHTTPS = new RegExp(hostnameWithoutHTTPS, "gi");
+  var hostnameREGEXWithoutHTTPS = new RegExp(hostnameWithoutHTTPS, 'gi');
 
   var b = Date.now();
   //console.log('--> ' + ((Date.now() - b) / 1000) +'s ' + req.url);
@@ -35,7 +35,7 @@ exports.hollard = async function (req, res) {
   }
 
   if (req.url.indexOf('/healthz') > -1) {
-    console.log("Index.js - health check success");
+    console.log('Index.js - health check success');
     res.send('healthy')
     return;
   }
@@ -44,20 +44,20 @@ exports.hollard = async function (req, res) {
   var proxyingAgent = null;
   if (config.USE_PROXY) {     
     proxyingAgent = require('proxying-agent').create(config.PROXY_SERVER, hostname + req.url);
-    console.log("Index.js - use proxy "+ proxyingAgent);
+    console.log('Index.js - use proxy server: '+ config.PROXY_SERVER + ' for target: ' + hostname + req.url);
   }
 
   //local caching
   if (isCacheable(req.url) && req.headers['cache-control'] != 'no-cache' && req.headers['cache-control'] != 'no-store') {
     try {
       if (fs.existsSync(req.url) && datediff(modifiedDate(req.url), Date.now()) < 1) {
-        res.writeHead(200, { "Content-Type": getEncoding(req.url) });
+        res.writeHead(200, { 'Content-Type': getEncoding(req.url) });
         res.end(fs.readFileSync(req.url));
         //console.log('<-- ' + ((Date.now() - b) / 1000) +'s loaded! ' + req.url);
         return;
       }
     } catch (err) {
-      winston.log('error', err.message);
+      winston.log('error', 'caching error: ' + err.message);
     }
   }
 
@@ -66,7 +66,7 @@ exports.hollard = async function (req, res) {
 
   headers['host'] = hostnameWithoutHTTPS;
 
-  var hostURL = new RegExp(config.HOST_URL, "gi");
+  var hostURL = new RegExp(config.HOST_URL, 'gi');
   if (headers['origin'])
     headers['origin'] = headers['origin'].replace(hostURL, hostname);
 
@@ -112,7 +112,7 @@ exports.hollard = async function (req, res) {
     function (callback) {
 
       if (username != 'x')
-        sess.auth = 'Basic ' + Buffer.from(username + "@hollardgroup:" + adpassword).toString('base64');
+        sess.auth = 'Basic ' + Buffer.from(username + '@hollardgroup:' + adpassword).toString('base64');
 
       if (!sess.auth) {
 
@@ -187,7 +187,7 @@ exports.hollard = async function (req, res) {
         }
       };
 
-      console.log("Index.js - before setImmediate()");
+      console.log('Index.js - before setImmediate()');
 
       setImmediate(function () {
 
@@ -199,13 +199,13 @@ exports.hollard = async function (req, res) {
             if (error) {
               log('+++++ [PROXY ERROR 1] ' + error.message + ' ...');
               winston.log('error', error.message);
-              res.end(error.code, "Unknown error - " + error.message);
+              res.end(error.code, 'Unknown error - ' + error.message);
               return;
             }
 
-            console.log("Index.js - inside setImmediate() request "+JSON.stringify(response.headers));
-            console.log("Index.js - inside setImmediate() request "+JSON.stringify(response.statusCode));
-            console.log("Index.js - inside setImmediate() request "+JSON.stringify(response.body));
+            console.log('Index.js - inside setImmediate() request '+JSON.stringify(response.headers));
+            console.log('Index.js - inside setImmediate() request '+JSON.stringify(response.statusCode));
+            console.log('Index.js - inside setImmediate() request '+JSON.stringify(response.body));
 
             if (response.headers.location)
               response.headers.location = response.headers.location.replace(hostnameREGEX, config.HOST_URL);
@@ -233,7 +233,7 @@ exports.hollard = async function (req, res) {
                 if (dezipped.replace) {
                   dezipped = dezipped.replace(/parent\.document/gi, 'document');
                   dezipped = dezipped.replace(/top.location.href/gi, '\/\/top.location.href');
-                  dezipped = dezipped.replace(/"_top"/gi, '"_self"');
+                  dezipped = dezipped.replace(/'_top'/gi, ''_self'');
                   dezipped = dezipped.replace(hostnameREGEX, config.HOST_URL);
                   dezipped = dezipped.replace(hostnameREGEXWithoutHTTPS, config.HOST_URL.replace('https://', ''));
                   dezipped = dezipped.replace('</head>', JSONMin + '</head>\r\n');
@@ -309,7 +309,7 @@ exports.hollard = async function (req, res) {
           } catch (e) {
             log('+++++ [PROXY ERROR 3] ' + e.message + ' ...');
             winston.log('error', e.message);
-            res.send(500, "Unknown error - " + e.message);
+            res.send(500, 'Unknown error - ' + e.message);
           } //end catch
         });// end request
       }); //end setImmediate
