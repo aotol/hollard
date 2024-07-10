@@ -129,8 +129,8 @@ app.get('/healthz', function (req, res) {
   console.log('Received request on /healthz');
 });
 
-app.get('*', routes.hollard);
-app.post('*', routes.hollard);
+//app.get('*', routes.hollard);
+//app.post('*', routes.hollard);
 
 console.log("Hollard.js - starting proxy");
 
